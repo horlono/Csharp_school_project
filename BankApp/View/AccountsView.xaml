@@ -1,0 +1,64 @@
+﻿<UserControl x:Class="BankApp.View.AccountsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:vm="clr-namespace:BankApp.ViewModel"
+             xmlns:local="clr-namespace:BankApp.View"
+             xmlns:f="clr-namespace:PRBD_Framework;assembly=PRBD_Framework"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.DataContext>
+        <vm:AccountsViewModel x:Name="vm"/>
+    </UserControl.DataContext>
+    <StackPanel>
+        <RadioButton Content="CheckingAccount" IsChecked="{Binding IsChecking,ElementName=vm,Mode=TwoWay}"
+                     Command="{Binding AccountFilter,ElementName=vm}"
+                     />
+        <RadioButton Content="SavingAccount" IsChecked="{Binding IsSaving,ElementName=vm,Mode=TwoWay}"
+                     Command="{Binding AccountFilter,ElementName=vm}"
+                     />
+        <RadioButton Content="All" IsChecked="{Binding IsAll,ElementName=vm,Mode=TwoWay}"
+                     Command="{Binding AccountFilter,ElementName=vm}"
+                     />
+        <TextBox Text="{Binding Filter, UpdateSourceTrigger=PropertyChanged}"  />
+        <Button Content="Clear"  Command="{Binding ClearFilter}" />
+        <ListView Name="CLients"  ItemsSource="{Binding IntAccounts}">
+            <ListView.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel></WrapPanel>
+                </ItemsPanelTemplate>
+            </ListView.ItemsPanel>
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <Border BorderBrush="Blue" BorderThickness="1">
+                        <StackPanel x:Name="Accounts" >
+                            <TextBlock Text="{Binding IBAN}" FontWeight="Bold" FontSize="16"/>
+                            <TextBlock Text="{Binding Descriptive}" FontWeight="Bold"/>
+                            <TextBlock>
+                                <Run Text="Floor : " /> 
+                                <Run Text="{Binding Floor}"/>
+                            </TextBlock>
+                                
+                                
+                            <TextBlock Text="{Binding Balance}" FontWeight="Bold" FontSize="18"/>
+                            
+                            <Button x:Name="Checking" Content="Statements"
+                                    Command="{Binding DisplayAccount,ElementName=vm}"
+                                    CommandParameter="{Binding}"
+                                    />
+                            <Button x:Name="Transfer" Content="New Transfer" 
+                                    Command="{Binding NewTransfer,ElementName=vm}"
+                                    CommandParameter="{Binding}"/>
+
+
+                        </StackPanel>
+                    </Border>
+                   
+                </DataTemplate>
+
+            </ListView.ItemTemplate>
+        </ListView>
+
+    </StackPanel>
+</UserControl>

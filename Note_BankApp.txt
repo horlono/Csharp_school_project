@@ -1,0 +1,14 @@
+Bank_App
+Tuto 3 recuperation sans classes du modele EF
+classes User ( attention enum en dehors de la classe )
+
+<ListView Name="Balance" ItemsSource="{Binding IntAccounts}">
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel>
+                                        <Button Content="{Binding Holder.Pseudo}"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+
+                        </ListView>

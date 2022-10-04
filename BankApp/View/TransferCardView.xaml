@@ -1,0 +1,43 @@
+﻿<UserControl x:Class="BankApp.View.TransferCardView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:BankApp.View"
+             xmlns:vm="clr-namespace:BankApp.ViewModel"      
+             xmlns:f="clr-namespace:PRBD_Framework;assembly=PRBD_Framework"
+             mc:Ignorable="d" Width="380">
+
+
+    <StackPanel x:Name="In">
+
+
+        <TextBlock><Run Text="Created on: "/><Run Text="{Binding CreationTime}" FontWeight="Normal"/></TextBlock>
+        <TextBlock Visibility="{Binding IsFuture,Converter={f:BoolToVisibleConverter}}"><Run Text="Effective on: "/><Run Text="{Binding EffectiveTime}" FontWeight="Bold"/></TextBlock>
+        <TextBlock><Run Text="Created by  : "/><Run Text="{Binding Payer.Pseudo}" FontWeight="Bold"/></TextBlock>
+        <TextBlock><Run Text="From : "/><Run Text="{Binding AccountPayer.Descriptive}" FontWeight="Bold"/><Run Text="  ("/><Run Text="{Binding AccountPayer.IBAN}" /><Run Text=")"/></TextBlock>
+        <TextBlock><Run Text="To  : "/><Run Text="{Binding AccountCreditor.Descriptive}" FontWeight="Bold"/><Run Text="  ("/><Run Text="{Binding AccountCreditor.IBAN}" /><Run Text=")"/></TextBlock>
+        <TextBlock><Run Text="{Binding Descriptive}"/></TextBlock>
+
+        <WrapPanel Orientation="Horizontal" HorizontalAlignment="Left">
+            <TextBlock Text="This Transfer is not yet execute , Cancel it ?"  Visibility="{Binding IsFuture,Converter={f:BoolToVisibleConverter}}" Foreground="#FF143BBD"/>
+            <Button x:Name="CancelTransfers" Content="Cancel"  
+                                        Visibility="{Binding IsFuture,Converter={f:BoolToVisibleConverter}}"
+                                        Command="{Binding Cancel,ElementName=vm}"
+                                        CommandParameter="{Binding}" Margin="50
+                    ,0,0,0" HorizontalAlignment="Stretch"
+                                        />
+        </WrapPanel>
+        <ComboBox ItemsSource="{Binding Categories,ElementName=vm}" SelectedItem="{Binding SelectedComboCategory, ElementName=vm,Mode=OneWayToSource}" Width="119" HorizontalAlignment="Left">
+            <ComboBox.ItemTemplate>
+                <DataTemplate>
+                <TextBlock>
+                        <Run Text="{Binding Name}"/>
+                    </TextBlock>
+            </DataTemplate>
+            </ComboBox.ItemTemplate>
+        </ComboBox>
+
+    </StackPanel>
+
+</UserControl>

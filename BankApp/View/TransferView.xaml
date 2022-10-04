@@ -1,0 +1,54 @@
+﻿<f:UserControlBase x:Class="BankApp.View.TransferView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:BankApp.View"
+             xmlns:vm="clr-namespace:BankApp.ViewModel"      
+             xmlns:f="clr-namespace:PRBD_Framework;assembly=PRBD_Framework"      
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.DataContext>
+        <vm:TransferViewModel x:Name="vm"/>
+    </UserControl.DataContext>
+    <StackPanel>
+        <TextBlock>From :</TextBlock>
+        <ComboBox x:Name="From" ItemsSource="{Binding IntAccounts}" SelectedItem="{Binding SelectFromAccount}" SelectedIndex="{Binding Index}">
+            <ComboBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock>
+                        <Run Text="{Binding IBAN}"/>
+                        <Run Text=" - "/>
+                        <Run Text="{Binding Descriptive}"/>
+                    </TextBlock>
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
+        </ComboBox>
+        <TextBlock>New Transfer</TextBlock>
+        <WrapPanel Orientation="Horizontal">
+            <TextBlock Text="{Binding SelectedAccount.IBAN}" Width="148" />
+            <TextBlock Text=" - "/>
+            <TextBlock Text="{Binding SelectedAccount.Descriptive}" Width="40"/>
+            <Button x:Name="ShowDialog" Content="..." Command="{Binding ShowAccounts, ElementName=vm}" 
+                                           CommandParameter="{Binding Payer}"/>
+        </WrapPanel>
+        <Label x:Name="EffectiveTransfer">Effective Date : </Label>
+        <DatePicker Name="EffectiveDate" SelectedDate="{Binding EffectiveDate, Mode=TwoWay}" />
+        <Label>Amount</Label>
+        <TextBox Text="{Binding AmountNewTransfer , UpdateSourceTrigger=PropertyChanged}"/>
+        <Label>Communication</Label>
+        <TextBox Text="{Binding NewDescriptive,UpdateSourceTrigger=PropertyChanged}"/>
+        <ComboBox ItemsSource="{Binding Categories,ElementName=vm}" SelectedItem="{Binding SelectedCategory, ElementName=vm}" Width="119" HorizontalAlignment="Left">
+            <ComboBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock>
+                        <Run Text="{Binding Name}"/>
+
+                    </TextBlock>
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
+        </ComboBox>
+        <Button x:Name="DoTransfer" Content="Do TRansfer" Command="{Binding DoTransfer,ElementName=vm}" CommandParameter="{Binding }"/>
+        <Button x:Name="Cancel" Content="Cancel" Command="{Binding Cancel,ElementName=vm}"/>
+    </StackPanel>
+</f:UserControlBase>
